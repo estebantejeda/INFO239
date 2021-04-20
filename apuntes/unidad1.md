@@ -249,5 +249,56 @@ freq = fft.fftfreq(n=len(g), d=1/Fs)
 ax.plot(freq, np.abs(G))
 ~~~
 
+# 4. Introducción al procesamiento de imágenes
 
+## 4.1 Definiendo una imagen digital
+
+​	La imagen digital es una señal con:
+
+* Dos variables independientes discretas $x$ e $y$ que representan el espacio
+* Una o más variables dependientes $I(x,y)$ que representan la intensidad del color según una codificación.
+
+​	En la práctica, las imágenes digitales son un arreglo $NxM$ y $x, y$ representan una posición dentro de esta matriz
+
+​	Los píxeles pueden ser:
+
+* Unidimensionales (B/N)
+* multidimensionales (RGB, etc)
+
+​	Un pixel se representa como una tupla donde cada componente:
+
+* Es un entero sin signo de 8bits: Intensidad de rango [0,255]
+* Es un valor flotante en el rango [0.0,1.0]
+
+## 4.2 Qué representa una imagen
+
+​	Una imagen, al ser un tipo de señal, quiere decir que está entregando algún tipo de información. Por lo general, una imagen es una representación de la intensidad lumínica.
+
+# 5. Análisis de imágenes en el dominio de la frecuencia
+
+## 5.1 Transformada de Fourier bidimensional
+
+$$
+G[k_1, k_2] = \sum_{n_1=0}^{N_1-1} \hat g_{n_2}[n_1] \exp \left (-j2\pi \frac{n_1 k_1}{N_1}\right)
+$$
+
+## 5.2 Resolución en conda
+
+​	La imagen debe ser exportada a B/N
+
+~~~python
+img_bw = color2bw(img_color)
+S = fftpack.fft2(img_bw)
+...
+ax.imgshow(fftpack.fftshift(np.abs(S)))
+~~~
+
+​	Para visualizar mejor el espectro de una imagen natural, se recomienda usar:
+$$
+\log(|\text{fft2}(I)|+1)
+$$
+
+~~~conda
+ax.imgshow(fftpack.fftshift(np.log(1+np.abs(S)))
+~~~
 
