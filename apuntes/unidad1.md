@@ -302,3 +302,62 @@ $$
 ax.imgshow(fftpack.fftshift(np.log(1+np.abs(S)))
 ~~~
 
+# 6. Transmisión y compresión
+
+​	El __transmisor__  del modelo de Shannon puede subdividirse en cuatro etapas:
+
+1. Transformación: Cambia la representación de los datos.
+
+2. Cuantización: Es opcional. Reduce los valores posibles de la señal. Transforma los datos e involucra pérdida.
+
+3. Codificación de fuente:  Codifica la información usando "menos bits" que la original. Existe compresión _Lossless_ y _Lossy_.
+
+4. Codificación de canal
+
+## 6.1 Algoritmo JPEG
+
+### 6.1.1 Paso #1: YCbCr 4:2:2
+
+​	Se convierte de RGB a YCbCr y luego se reduce la resolución de los canales chroma con respecto al canal de luminancia.
+
+Esto debido a que somos más sensibles a la iluminación que al color.
+
+### 6.1.2 Paso #2: DCT en bloques de 8x8
+
+​	Se aplica secuencialmente en bloques disjuntos de 8x8 píxeles.
+
+​	Cada bloque se lleva al dominio de la frecuencia usando la transformada discreta coseno (DCT)
+
+​	DCT es lineal y cumple con el principio de conservación de energía.
+
+​	Podemos usar el algoritmo FFT para calcular eficientemente la DCT
+
+### 6.1.3 Paso #3: Cuantización con matriz Q
+
+​	Cuantiza cada matriz DCT y reduce la "cantidad de valores posibles".
+$$
+\begin{split}
+\begin{equation}
+    Q(x)=
+    \begin{cases}
+      r_0, & x \in [d_0, d_1) \\
+      r_1, & x \in [d_1, d_2) \\
+      \vdots & \vdots \\
+      r_i, & x \in [d_i, d_{i+1}) \\
+      \vdots & \vdots \\
+      r_{L-1}& x \in [d_{L-1}, d_{L}) \\
+    \end{cases}
+\end{equation}
+\end{split}
+$$
+​	Un caso particular es la __cuantización uniforme__, donde la diferencia entre los niveles $q$ es constante.
+$$
+x_q = -V + \frac{q}{2} + q\cdot \text{floor}\left(\frac{x+V}{q} \right)
+$$
+
+
+### 6.1.4 Paso #4: Codificación de Huffman
+
+# 7. Teoría de la información
+
+​	Proporciona medidas para describir la información de un proceso: __Entropía__ e __Información mutua__.
