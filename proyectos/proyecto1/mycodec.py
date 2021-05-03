@@ -40,9 +40,9 @@ def code(frame_filtrado):
 
     #return frame_destranformado
 
-    return b
+    return b, texto_codificado
 
-def decode(b):
+def decode(b, texto_codificado):
 
     # Se carga el dendograma y se crea el inverso
     a_file = open("data.pkl", "rb")
