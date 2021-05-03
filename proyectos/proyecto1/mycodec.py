@@ -19,7 +19,6 @@ def code(frame_filtrado):
 
     frame_destranformado = inv_transform(frame_ct)
     
-    
     return frame_destranformado
 
 
