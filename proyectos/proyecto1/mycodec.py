@@ -64,7 +64,6 @@ def decode(message):
     padding_recibido = b_recibido[0]
     bytes_recibido = b_recibido[1]
 
-
     # Se toma el texto codificado en bytes y se transforma a una cadena de 1 y 0
     frame_recibido = ""
     for i in range (0, len(bytes_recibido)):
@@ -82,7 +81,6 @@ def decode(message):
             texto += str(dendograma_inverso[codigo])
             texto += " "
             codigo = ""
-    print(texto[:100])
 
     frame_final = np.array([float(x) for x in texto.split()], dtype=np.float64)
     frame_final = frame_final.reshape(480,848)
