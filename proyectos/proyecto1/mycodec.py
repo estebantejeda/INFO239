@@ -13,11 +13,16 @@ def denoise(frame):
     return frame_filtrado
 
 def code(frame_filtrado):
+
+    
+    p_original = np.prod(frame_filtrado.shape) * 8 / 1e+6
+    print("Peso original: %0.2f MB" % p_original) 
+
     #Transformacion -> camnbiar la representacion de los datos-> disminuir la redunciancia y correlacion de los datos
     frame_tr = transformacion(frame_filtrado)
     #Cuantización
     
-    frame_ct = cuantizacion(frame_tr,80)
+    frame_ct = cuantizacion(frame_tr,80, p_original)
 
     # frame_ct se convierte en un vector
     frame_ct = frame_ct.ravel()    

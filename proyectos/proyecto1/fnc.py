@@ -45,10 +45,10 @@ Q = np.array([[16, 11, 10, 16, 24, 40, 51, 61],
               [49, 64, 78, 87, 103, 121, 120, 101],
               [72, 92, 95, 98, 112, 100, 103, 99]])
 
-def cuantizacion(frame, porcentaje):
+def cuantizacion(frame, porcentaje, p_original):
     frame_size = frame.shape
     frame_cuantizado = np.zeros(shape=frame_size)
-
+    nnz = np.zeros(frame.shape)
     if (porcentaje < 50):
         S = 5000/porcentaje
     else:
@@ -59,6 +59,11 @@ def cuantizacion(frame, porcentaje):
     for i in range(0, frame_size[0], 8):
         for j in range(0, frame_size[1], 8):
             frame_cuantizado[i:(i+8), j:(j+8)] = np.round(frame[i:(i+8),j:(j+8)]/Q_dyn)
+            nnz[i,j]=np.count_nonzero(frame[i:(i+8), j:(j+8)])
+
+    p_comprimido = np.sum(nnz)*8/1e+6
+    print("Peso comprimido: %0.2f MB" % p_comprimido)  
+    print("Tasa de compresión: %0.2f MB/s" % (p_comprimido / p_original))
     return frame_cuantizado
 
 
