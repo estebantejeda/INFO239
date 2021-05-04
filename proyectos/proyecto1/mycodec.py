@@ -40,19 +40,19 @@ def code(frame_filtrado):
 
     #return frame_destranformado
 
-    return b, texto_codificado
+    return b
 
-def decode(b, texto_codificado):
+def decode(b):
 
     # Se carga el dendograma y se crea el inverso
     a_file = open("data.pkl", "rb")
     new_dendo = pickle.load(a_file)
     a_file.close()
-    dendograma_inverso =  {codigo: simbolo for simbolo, codigo in dendograma.items()}
+    dendograma_inverso =  {codigo: simbolo for simbolo, codigo in new_dendo.items()}
 
     # Se toma el texto codificado en bytes y se transforma a una cadena de 1 y 0
-    texto_decodificado = [valor for k in range(len(b)) for valor in texto_codificado[k]]
-    texto_decodificado = ''.join(texto_codificado)
+    texto_decodificado = [valor for k in range(len(b)) for valor in b[k]]
+    texto_decodificado = ''.join(b)
 
     # Se decodifica con el dendograma inverso
     codigo = ""
